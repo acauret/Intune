@@ -104,5 +104,5 @@ Invoke-Pester .\Intune.tests.ps1 -tag License
 ```powershell
 Invoke-Pester .\Intune.tests.ps1 -tag Policy
 ```
-![Intune](./media/policy.gif)
+![Policy](./media/policy.gif)
 
