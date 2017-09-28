@@ -10,7 +10,7 @@
 
 ### Office 365 Tests
 > This tests that Modern Authentication is Enabled
-- has Check Modern Authentication is Enabled
+- has Modern Authentication is Enabled
 
 ```powershell
 Invoke-Pester .\Intune.tests.ps1 -tag O365
