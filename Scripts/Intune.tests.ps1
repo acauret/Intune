@@ -267,7 +267,7 @@ $AndroidPolicy_JSON = $PolData.Value | Where-Object { ($_.'@odata.type').Contain
             It "Offline interval before app data is wiped (days) [Value = $($AndroidPolicy.periodOfflineBeforeWipeIsEnforced)]"{
                 $AndroidPolicy.periodOfflineBeforeWipeIsEnforced | should BeExactly $AndroidPolicy_JSON.periodOfflineBeforeWipeIsEnforced
             } 
-            It "Require minimum iOS operating system [Value = $($AndroidPolicy.minimumRequiredOsVersion)]"{
+            It "Require minimum Android operating system [Value = $($AndroidPolicy.minimumRequiredOsVersion)]"{
                 $AndroidPolicy.minimumRequiredOsVersion | should BeExactly $AndroidPolicy_JSON.minimumRequiredOsVersion
             } 
             It "Targeted Security Group count [Value = $($AndroidPolicy.targetedSecurityGroupsCount)]"{
