@@ -25,31 +25,33 @@ Describe -Tag "MDM" "Mobile Device Management Tests"{
         }
     }
     Context -Name "Enrollment restrictions - Device Type Restrictions"{
+            $er = (Get-IntuneDeviceEnrollmentRestriction) | Where-Object { ($_.id).contains("DefaultPlatformRestrictions")}
         It "has Android platform Enrollment: 'Allowed'"{
-            (((Get-IntuneOrganization).id | Get-IntuneDeviceEnrollmentRestriction).androidRestrictions).Platformblocked | Should Be $false
+            $er.androidRestriction.Platformblocked | Should Be $false
         }
         It "has Android platform Enrollment: osMinimumVersion= '5.1'"{
-            (((Get-IntuneOrganization).id | Get-IntuneDeviceEnrollmentRestriction).androidRestrictions).osMinimumVersion | Should Be "5.1"
+            $er.androidRestriction.osMinimumVersion | Should Be "5.1"
         }
         It "has Android 'Personally Owned Devices' Enrollment: 'Blocked'"{
-            (((Get-IntuneOrganization).id | Get-IntuneDeviceEnrollmentRestriction).androidRestrictions).personalDeviceEnrollmentBlocked | Should Be $True
+            $er.androidRestriction.personalDeviceEnrollmentBlocked | Should Be $True
         }
         It "has iOS platform Enrollment: 'Blocked'"{
-            (((Get-IntuneOrganization).id | Get-IntuneDeviceEnrollmentRestriction).iosRestrictions).Platformblocked | Should Be $true
+            $er.iosRestriction.Platformblocked | Should Be $true
         }
         It "has macOS platform Enrollment: 'Blocked'"{
-            (((Get-IntuneOrganization).id | Get-IntuneDeviceEnrollmentRestriction).macRestrictions).Platformblocked | Should Be $true
+            $er.macRestriction.Platformblocked | Should Be $true
         }
         It "has Windows (8.1+) platform Enrollment: 'Blocked'"{
-            (((Get-IntuneOrganization).id | Get-IntuneDeviceEnrollmentRestriction).windowsRestrictions).Platformblocked | Should Be $true
+            $er.windowsRestriction.Platformblocked | Should Be $true
         }
         It "has Windows Mobile platform Enrollment: 'Blocked'"{
-            (((Get-IntuneOrganization).id | Get-IntuneDeviceEnrollmentRestriction).windowsMobileRestrictions).Platformblocked | Should Be $true
+            $er.windowsMobileRestriction.Platformblocked | Should Be $true
         }
     }
     Context -Name "Enrollment restrictions - Device Limit Restrictions"{
         It "has maximum number of devices a user can enroll set as '1' "{
-            (Get-IntuneOrganization).id | Get-defaultDeviceEnrollmentLimit | Should Be 1
+            $dl = (Get-IntuneDeviceEnrollmentRestriction) | Where-Object { ($_.id).contains("DefaultLimit") }
+            $dl.limit | Should Be 1
         }
     }
     Context -Name "Terms and conditions"{
@@ -267,7 +269,7 @@ $AndroidPolicy_JSON = $PolData.Value | Where-Object { ($_.'@odata.type').Contain
             It "Offline interval before app data is wiped (days) [Value = $($AndroidPolicy.periodOfflineBeforeWipeIsEnforced)]"{
                 $AndroidPolicy.periodOfflineBeforeWipeIsEnforced | should BeExactly $AndroidPolicy_JSON.periodOfflineBeforeWipeIsEnforced
             } 
-            It "Require minimum Android operating system [Value = $($AndroidPolicy.minimumRequiredOsVersion)]"{
+            It "Require minimum iOS operating system [Value = $($AndroidPolicy.minimumRequiredOsVersion)]"{
                 $AndroidPolicy.minimumRequiredOsVersion | should BeExactly $AndroidPolicy_JSON.minimumRequiredOsVersion
             } 
             It "Targeted Security Group count [Value = $($AndroidPolicy.targetedSecurityGroupsCount)]"{
@@ -278,17 +280,17 @@ $AndroidPolicy_JSON = $PolData.Value | Where-Object { ($_.'@odata.type').Contain
 
 }
 Describe -Tag "MDM" "Intune Mobile Device Managment Policy Checks"{
-$Policy = Get-DeviceConfigurationPolicy
+$Policy = Get-DeviceConfigurationPolicy | Where-Object { ($_.'@odata.type').Contains("androidGeneralDeviceConfiguration")}
 $PolData = Get-Content -Raw -Path (join-path $scriptRoot "MDM_Policy.json") | ConvertFrom-Json
 $MDM_Policy_JSON = $PolData.Value
  Context -Name "Android Device Restrictions checks "{
-    It "'Minimum password length' is correct: [Value = $($Policy.passwordMinimumLength)]"{
+    It "'Minimum password length' is correct: [Value=$($Policy.passwordMinimumLength)]"{
         $Policy.passwordMinimumLength | should BeExactly $MDM_Policy_JSON.passwordMinimumLength
     } 
-    It "'Password requirement' is set correctly. [Value = $($Policy.passwordRequired)]"{
+    It "'Password requirement' is set correctly. [Value=$($Policy.passwordRequired)]"{
         $Policy.passwordRequired | should BeExactly $MDM_Policy_JSON.passwordRequired
     } 
-    It "'Number of sign-in failures before wiping device' is set correctly. [Value = $($Policy.passwordSignInFailureCountBeforeFactoryReset)]"{
+    It "'Number of sign-in failures before wiping device' is set correctly. [Value=$($Policy.passwordSignInFailureCountBeforeFactoryReset)]"{
         $Policy.passwordSignInFailureCountBeforeFactoryReset | should BeExactly $MDM_Policy_JSON.passwordSignInFailureCountBeforeFactoryReset
     } 
  }

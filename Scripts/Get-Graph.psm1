@@ -428,44 +428,6 @@ $Group_resource = "groups"
 }
 
 ##################################################################################
-Function Get-defaultDeviceEnrollmentLimit(){
-
-<#
-.SYNOPSIS
-This function is used to get the defaultDeviceEnrollmentLimit from the Graph API REST interface
-.DESCRIPTION
-The function connects to the Graph API Interface
-.EXAMPLE
-(Get-IntuneOrganization).id | Get-defaultDeviceEnrollmentLimit
-Returns "int"
-.NOTES
-NAME: Get-defaultDeviceEnrollmentLimit
-#>
-
-[CmdletBinding()]
-
-param
-(
-    [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "beta",
-
-    [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-    $id
-)
-
-    #
-    CheckAuthorisation
-    $Resource = "organization/$id/defaultDeviceEnrollmentLimit"
-
-    if(!$id){
-        Trace-Execution "Organization Id hasn't been specified, please specify Id..."
-        break
-    }
-    else {
-        JSONGet -path $Resource -graphApiVersion $graphApiVersion
-    }
-}
-##################################################################################
 Function Get-mobileDeviceManagementAuthority(){
 
 <#
@@ -840,23 +802,15 @@ NAME: Get-IntuneDeviceEnrollmentRestriction
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "beta",
+    [string]$graphApiVersion = "beta"
 
-    [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-    $id
 )
 
     #
     CheckAuthorisation
-    $Resource = "organization/$id/defaultDeviceEnrollmentRestrictions"
+    $Resource = "deviceManagement/deviceEnrollmentConfigurations"
 
-    if(!$id){
-        Trace-Execution "Organization Id hasn't been specified, please specify Id..."
-        break
-    }
-    else {
-        JSONGet -path $Resource -graphApiVersion $graphApiVersion
-    }
+    JSONGet -path $Resource -graphApiVersion $graphApiVersion
 }
 ##################################################################################
 Function Get-AADGroupMembership(){
