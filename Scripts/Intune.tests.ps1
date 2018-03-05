@@ -25,7 +25,7 @@ Describe -Tag "MDM" "Mobile Device Management Tests"{
         }
     }
     Context -Name "Enrollment restrictions - Device Type Restrictions"{
-            $er = (Get-IntuneDeviceEnrollmentRestriction) | Where-Object { ($_.id).contains("DefaultPlatformRestrictions")}
+        $er = (Get-IntuneDeviceEnrollmentRestriction) | Where-Object { ($_.id).contains("DefaultPlatformRestrictions")}
         It "has Android platform Enrollment: 'Allowed'"{
             $er.androidRestriction.Platformblocked | Should Be $false
         }
@@ -39,7 +39,7 @@ Describe -Tag "MDM" "Mobile Device Management Tests"{
             $er.iosRestriction.Platformblocked | Should Be $true
         }
         It "has macOS platform Enrollment: 'Blocked'"{
-            $er.macRestriction.Platformblocked | Should Be $true
+            $er.macOSRestriction.Platformblocked | Should Be $true
         }
         It "has Windows (8.1+) platform Enrollment: 'Blocked'"{
             $er.windowsRestriction.Platformblocked | Should Be $true
@@ -200,8 +200,8 @@ $AndroidPolicy_JSON = $PolData.Value | Where-Object { ($_.'@odata.type').Contain
             It "Require minimum iOS operating system [Value = $($iOSPolicy.minimumRequiredOsVersion)]"{
                 $iOSPolicy.minimumRequiredOsVersion | should BeExactly $iOSPolicy_JSON.minimumRequiredOsVersion
             } 
-            It "Targeted Security Group count [Value = $($iOSPolicy.targetedSecurityGroupsCount)]"{
-                $iOSPolicy.targetedSecurityGroupsCount | should BeExactly $iOSPolicy_JSON.targetedSecurityGroupsCount
+            It "Policy should be Assigned"{
+                $iOSPolicy.isAssigned | should Be $True
             } 
         }
     }
@@ -272,8 +272,8 @@ $AndroidPolicy_JSON = $PolData.Value | Where-Object { ($_.'@odata.type').Contain
             It "Require minimum iOS operating system [Value = $($AndroidPolicy.minimumRequiredOsVersion)]"{
                 $AndroidPolicy.minimumRequiredOsVersion | should BeExactly $AndroidPolicy_JSON.minimumRequiredOsVersion
             } 
-            It "Targeted Security Group count [Value = $($AndroidPolicy.targetedSecurityGroupsCount)]"{
-                $AndroidPolicy.targetedSecurityGroupsCount | should BeExactly $AndroidPolicy_JSON.targetedSecurityGroupsCount
+            It "Policy should be Assigned"{
+                $AndroidPolicy.isAssigned | should Be $True
             } 
         }
     }

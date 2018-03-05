@@ -2,6 +2,9 @@
 .COPYRIGHT
 Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
 See LICENSE in the project root for license information.
+.VERSION
+    1.0             : Initial version
+    1.1             : Microsoft Intune APIs addition to v1.0
 #>
 #region Authentication
 ####################################################
@@ -223,7 +226,7 @@ Function JSONGet {
         [String] $path,
 
         [Parameter(Mandatory=$False)]
-        [string]$graphApiVersion = "Beta",
+        [string]$graphApiVersion = "v1.0",
         [Switch] $WaitForUpdate,
         $Silent = $True
 
@@ -308,7 +311,7 @@ NAME: Get-IntuneManagedAppPolicy
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "Beta",
+    [string]$graphApiVersion = "v1.0",
 
     [Parameter(Mandatory=$false)]
     [string]$Name
@@ -348,7 +351,7 @@ NAME: Get-DeviceConfigurationPolicy
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "Beta",
+    [string]$graphApiVersion = "v1.0",
 
     [Parameter(Mandatory=$false)]
     [string]$Name
@@ -447,7 +450,7 @@ NAME: Get-mobileDeviceManagementAuthority
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "Beta",
+    [string]$graphApiVersion = "v1.0",
 
     [Parameter(Mandatory=$false)]
     [string]$Name
@@ -480,7 +483,7 @@ NAME: Get-IntuneMAMApplication
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "Beta",
+    [string]$graphApiVersion = "v1.0",
 
     [Parameter(Mandatory=$false)]
     [string]$Name
@@ -521,7 +524,7 @@ NAME: Get-IntuneOrganization
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "Beta"
+    [string]$graphApiVersion = "v1.0"
 )
     #
     CheckAuthorisation
@@ -602,7 +605,7 @@ NAME: Get-AADUserDevice
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "beta",
+    [string]$graphApiVersion = "v1.0",
 
     [Parameter(Mandatory=$true,ValueFromPipeLine=$True,HelpMessage="UserID (guid) for the user you want to take action on must be specified:")]
     $UserID
@@ -643,7 +646,7 @@ NAME: Get-RBACRole
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "Beta",
+    [string]$graphApiVersion = "v1.0",
     [string]$Name 
 )
 
@@ -682,7 +685,7 @@ NAME: Get-subscribedSku
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "beta",
+    [string]$graphApiVersion = "v1.0",
 
     [Parameter(Mandatory=$False)]
     [string]$Name 
@@ -720,7 +723,7 @@ NAME: Get-termsAndConditions
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "beta",
+    [string]$graphApiVersion = "v1.0",
 
     [Parameter(Mandatory=$False)]
     [string]$Name 
@@ -759,7 +762,7 @@ NAME: Get-AADDomain
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "beta",
+    [string]$graphApiVersion = "v1.0",
     [string]$Name,
     [switch]$DNSRecords
 )
@@ -802,7 +805,7 @@ NAME: Get-IntuneDeviceEnrollmentRestriction
 param
 (
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "beta"
+    [string]$graphApiVersion = "v1.0"
 
 )
 
@@ -825,7 +828,7 @@ param
     [Parameter(Mandatory=$True)]
     $GroupName,
     [Parameter(Mandatory=$False)]
-    [string]$graphApiVersion = "beta",
+    [string]$graphApiVersion = "v1.0",
     [switch]$MissingOnly
     
 )
