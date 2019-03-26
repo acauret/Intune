@@ -341,7 +341,7 @@ This function is used to get Device Configuration policies from the Graph API RE
 The function connects to the Graph API Interface
 .EXAMPLE
 Get-DeviceConfigurationPolicy
-Returns any managed app policies configured in Intune
+Returns any managed app policies configured in Intune`
 .NOTES
 NAME: Get-DeviceConfigurationPolicy
 #>
@@ -371,6 +371,46 @@ param
         JSONGet -path $Resource -graphApiVersion $graphApiVersion
     }
 }
+##################################################################################
+Function Get-DeviceCompliancePolicy(){
+
+    <#
+    .SYNOPSIS
+    This function is used to get Device Compliance policies from the Graph API REST interface
+    .DESCRIPTION
+    The function connects to the Graph API Interface
+    .EXAMPLE
+    Get-DeviceCompliancePolicy
+    Returns any managed app policies configured in Intune`
+    .NOTES
+    NAME: Get-DeviceCompliancePolicy
+    #>
+    
+    [CmdletBinding()]
+    
+    param
+    (
+        [Parameter(Mandatory=$False)]
+        [string]$graphApiVersion = "v1.0",
+    
+        [Parameter(Mandatory=$false)]
+        [string]$Name
+    )
+        #
+        CheckAuthorisation
+        #
+        $Resource = "deviceManagement/deviceCompliancePolicies"
+    
+        #
+        if($Name)
+        {
+            JSONGet -path $Resource -graphApiVersion $graphApiVersion| Where-Object { ($_.'displayName').contains("$Name")}
+        }
+        Else
+        {
+            JSONGet -path $Resource -graphApiVersion $graphApiVersion
+        }
+    }
 ####################################################
 Function Get-AADGroup(){
 
@@ -884,4 +924,5 @@ Export-ModuleMember -Function Get-IntuneManagedAppPolicy,`
                               Get-defaultDeviceEnrollmentLimit, `
                               Get-termsAndConditions, `
                               Get-DeviceConfigurationPolicy, `
-                              Get-AADGroupMembership
+                              Get-AADGroupMembership, `
+                              Get-DeviceCompliancePolicy
